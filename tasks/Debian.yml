@@ -32,6 +32,10 @@
     state: directory
   tags: [ percona_mongo ]
 
+- name: update config file
+  template: src=mongod.yml dest=/etc/mongod.conf force=yes backup=yes
+  tags: [ percona_mongo ]
+
 - name: enable mongo
   systemd:
     name: mongod
