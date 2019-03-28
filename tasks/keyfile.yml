@@ -1,0 +1,22 @@
+---
+
+- stat:
+    path: "{{ psmdb_keyfile_local }}"
+  register: psmdb_keyfile_local_stat
+  no_log: yes
+  delegate_to: localhost
+
+- name: create keyfile
+  when:
+    - psmdb_keyfile_create
+    - psmdb_keyfile_local_stat.stat.exists == False
+  delegate_to: localhost
+  shell: "openssl rand -base64 756 > {{ psmdb_keyfile_local }}"
+
+- name: copy keyfile
+  copy:
+    src: "{{ psmdb_keyfile_local }}"
+    dest: "{{ psmdb_keyfile }}"
+    mode: 0600
+    owner: "{{ psmdb_user }}"
+    group: "{{ psmdb_group }}"

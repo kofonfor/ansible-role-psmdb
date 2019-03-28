@@ -1,23 +1,23 @@
 storage:
-  dbPath: {{ percona.mongo.datadir }}
+  dbPath: {{ psmdb_datadir }}
   journal:
     enabled: true
-  engine: {{ percona.mongo.engine }}
+  engine: {{ psmdb_engine }}
 
 systemLog:
   destination: file
   logAppend: true
-  path: {{ percona.mongo.logfile }}
+  path: {{ psmdb_logfile }}
 
 net:
-  port: {{ percona.mongo.port }}
-  bindIp: 127.0.0.1,{{ mongo_backnet_ip }}
+  port: {{ psmdb_port }}
+  bindIp: 127.0.0.1,{{ psmdb_bind_ip }}
 
 replication:
-  replSetName: {{ percona.mongo.replset }}
+  replSetName: {{ psmdb_replset }}
 
-{% if percona.mongo.security is defined %}
+{% if psmdb_security %}
 security:
-  transitionToAuth: {{ percona.mongo.security.transitionToAuth | default(no) }}
-  keyFile: {{ percona.mongo.security.keyFile }}
+  transitionToAuth: {{ psmdb_transitionToAuth | default(no) }}
+  keyFile: {{ psmdb_keyfile }}
 {% endif %}

@@ -1,3 +1,64 @@
-# Debian/Ubuntu specific installation
-- include_tasks: Debian.yml
-  when: ansible_os_family  == "Debian"
+---
+
+# percona mongodb repository
+
+- name: add percona server repo
+  apt:
+    deb: https://repo.percona.com/apt/percona-release_latest.{{ ansible_distribution_release }}_all.deb
+
+# user & group
+
+- name: create group {{ psmdb_group }}
+  group:
+    name: "{{ psmdb_group }}"
+    system: yes
+    state: present
+
+- name: create user {{ psmdb_user }}
+  user:
+    name: "{{ psmdb_user }}"
+    group: "{{ psmdb_group }}"
+    home: "{{ psmdb_datadir }}"
+    system: yes
+    state: present
+
+# keyfile creation
+
+- include_tasks: keyfile.yml
+  when: psmdb_security
+
+# directories
+
+- name: create data dir
+  file:
+    path: "{{psmdb_datadir}}"
+    state: directory
+    mode: 0755
+    owner: "{{ psmdb_user }}"
+    group: "{{ psmdb_group }}"
+
+# config and make unit before install percona mongodb server (percona always fails without it)
+
+- name: preinstall correct unit file
+  template:
+    src: mongod.service
+    dest: /etc/systemd/system/mongod.service
+
+- name: create config file
+  template:
+    src: mongod.yml
+    dest: /etc/mongod.conf
+  notify: restart mongo
+
+- name: install percona mongodb version {{ psmdb_version }}
+  apt:
+    name: percona-server-mongodb-{{ psmdb_version }}
+    state: present
+    update_cache: yes
+
+- name: enable mongo
+  systemd:
+    name: mongod
+    state: started
+    enabled: yes
+    daemon_reload: yes
