@@ -11,7 +11,7 @@ systemLog:
 
 net:
   port: {{ psmdb_port }}
-  bindIp: 127.0.0.1,{{ psmdb_bind_ip }}
+  bindIp: {{ psmdb_bind_ip }}
 
 replication:
   replSetName: {{ psmdb_replset }}

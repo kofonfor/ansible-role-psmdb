@@ -11,4 +11,4 @@ psmdb_keyfile_create: yes
 psmdb_keyfile: "/opt/mongo/mongodb-keyfile"
 psmdb_keyfile_local: "{{ playbook_dir }}/mongodb-keyfile"
 psmdb_transitionToAuth: "false"
-psmdb_bind_ip: "{{ backnet_ip }}"
+psmdb_bind_ip: "0.0.0.0"
