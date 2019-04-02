@@ -1,5 +1,5 @@
 - name: restart mongo
   systemd:
     name: mongod
-    state: started
-    daemon_reload: yes
+    state: restarted
+
