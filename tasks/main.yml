@@ -31,7 +31,7 @@
 
 - name: create data dir
   file:
-    path: "{{psmdb_datadir}}"
+    path: "{{ psmdb_datadir }}"
     state: directory
     mode: 0755
     owner: "{{ psmdb_user }}"
