@@ -9,6 +9,7 @@
   delegate_to: localhost
 
 - name: create keyfile
+  become: no
   when:
     - psmdb_keyfile_create
     - not psmdb_keyfile_local_stat.stat.exists
