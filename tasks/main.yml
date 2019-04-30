@@ -43,6 +43,7 @@
   template:
     src: mongod.service
     dest: /etc/systemd/system/mongod.service
+  notify: daemon reload
 
 - name: create config file
   template:
