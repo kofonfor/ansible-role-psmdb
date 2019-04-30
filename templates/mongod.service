@@ -13,6 +13,8 @@ LimitNPROC=64000
 EnvironmentFile=-/etc/default/mongod
 ExecStart=/usr/bin/mongod --config /etc/mongod.conf
 PIDFile=/var/run/mongod.pid
+Restart=always
+RestartSec=60
 
 [Install]
 WantedBy=multi-user.target
