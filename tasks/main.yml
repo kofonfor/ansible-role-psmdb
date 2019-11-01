@@ -42,13 +42,13 @@
 - name: preinstall correct unit file
   template:
     src: mongod.service
-    dest: /etc/systemd/system/mongod.service
+    dest: "{{ psmdb_service_file }}"
   notify: daemon reload
 
 - name: create config file
   template:
     src: mongod.yml
-    dest: /etc/mongod.conf
+    dest: "{{ psmdb_config_file }}"
   notify: restart mongo
 
 - name: install percona mongodb version {{ psmdb_version }}
@@ -59,7 +59,7 @@
 
 - name: enable mongo
   systemd:
-    name: mongod
+    name: "{{ psmdb_service_name }}"
     state: started
     enabled: yes
     daemon_reload: yes

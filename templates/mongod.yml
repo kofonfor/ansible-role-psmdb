@@ -21,3 +21,4 @@ security:
   transitionToAuth: {{ psmdb_transitionToAuth | default(no) }}
   keyFile: {{ psmdb_keyfile }}
 {% endif %}
+

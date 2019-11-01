@@ -1,6 +1,6 @@
 - name: restart mongo
   systemd:
-    name: mongod
+    name: "{{ psmdb_service_name }}"
     state: restarted
 
 - name: daemon reload
